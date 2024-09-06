@@ -3,6 +3,8 @@
  */
 package com.equipo3.generadorcontrasenas;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -13,13 +15,17 @@ import java.util.Scanner;
  */
 public class Menu {
 
-    IGeneradorContrasenas generador;
-    IEvaluadorContrasenas evaluador;
-    Scanner tec = new Scanner(System.in);
+    private IGeneradorContrasenas generador;
+    private IEvaluadorContrasenas evaluador;
+    
+    private Map<String, String> contrasenasGuardadas;
+    
+    private Scanner tec = new Scanner(System.in);
 
     public Menu() {
         generador = new GeneradorContrasenas();
         evaluador = new EvaluadorContrasenas();
+        contrasenasGuardadas = new HashMap<>();
     }
 
     /**
@@ -31,13 +37,15 @@ public class Menu {
 
         do {
             //Despliega el menu
-            System.out.println("Bienvenido al generador de contraseñas, "
-                    + "seleccione la operación que desea realizar");
-            System.out.println("1. Generar Contraseña");
-            System.out.println("2. Evaluar Contraseña");
-            System.out.println("3. Mostrar Contrasenas Guardadas");
-            System.out.println("0.Salir");
+            System.out.println("Bienvenido al generador de contrasenas, "
+                    + "seleccione la operacion que desea realizar");
+            System.out.println("\t1. Generar Contrasena");
+            System.out.println("\t2. Evaluar Contrasena");
+            System.out.println("\t3. Mostrar Contrasenas Guardadas");
+            System.out.println("\t4. Guardar Contrasena");
+            System.out.println("\t0.Salir\n");
 
+            System.out.print(">>> ");
             int opcion = tec.nextInt();
 
             //Ejecuta la opcion solicitada
@@ -47,7 +55,9 @@ public class Menu {
                 case 2 ->
                     evaluarContrasena();
                 case 3 ->
-                    evaluarContrasena();
+                    mostrarContrasenas();
+                case 4 -> 
+                    guardarContrasena();
                 case 0 ->
                     ejecutar = false; //Termina el proceso
                 default ->
@@ -66,7 +76,7 @@ public class Menu {
         int longitud = tec.nextInt();
 
         String contrasena = generador.generarContrasena(longitud);
-        System.out.println("Su nueva contraseña segura es " + contrasena);
+        System.out.println("Su nueva contraseña segura es: " + contrasena);
         regresar();
     }
 
@@ -78,9 +88,66 @@ public class Menu {
         System.out.println("Ingrese la contraseña que desea evaluar");
         String contrasena = tec.next();
 
-        String nivelSeguridad = evaluador.verificarSeguridad(contrasena).toString();
-        System.out.println("Su contraseña tiene un nivel de seguridad "
+        IEvaluadorContrasenas evaluadorSecuencial = new EvaluadorContrasenasSecuencial();
+        
+        String nivelSeguridad = evaluadorSecuencial.verificarSeguridad(contrasena).toString();
+        
+        System.out.println("Su contraseña tiene un nivel de seguridad: "
                 + nivelSeguridad);
+        
+        regresar();
+    }
+    
+    private void guardarContrasena() {
+        System.out.println();
+        
+        boolean entradaValida = false;
+        
+        String nombreContrasena = "", contrasena = "";
+        
+        while (!entradaValida) {
+            System.out.print("Ingresa el nombre con el que deseas guardar la contrasena[minimo de 4 y menor a 20 caracteres]: ");
+            nombreContrasena = tec.next();
+            
+            if (nombreContrasena.length() < 4 || nombreContrasena.length() > 20) {
+                System.out.println("[!] El nombre de la contrasena debe tener al menos 4 y un maximo de 20 caracteres...");
+                continue;
+            }
+            
+            entradaValida = true;
+        }
+        
+        entradaValida = false;
+        
+        while (!entradaValida) {
+            System.out.print("Ingresa la contrasena a guardar: ");
+            contrasena = tec.next();
+            
+            if (contrasena.isBlank() || contrasena.isEmpty()) {
+                System.out.println("[!] Por favor, ingresa una contrasena");
+            }
+            
+            entradaValida = true;
+        }
+        
+        this.contrasenasGuardadas.put(nombreContrasena, contrasena);
+        
+        regresar();
+    }
+    
+    private void mostrarContrasenas() {
+        System.out.println("Contrasenas guardadas: " + this.contrasenasGuardadas.size());
+        
+        int i = 1;
+        
+        for (Map.Entry<String, String> contrasenaGuardada: this.contrasenasGuardadas.entrySet()) {
+            String llave = contrasenaGuardada.getKey();
+            String contrasena = contrasenaGuardada.getValue();
+            String nivelSeguridad = this.evaluador.verificarSeguridad(contrasena).toString();
+            System.out.println(String.format("%d. [Nombre: %s]: [PASSWD: %s] [Seguridad: %s]", i, llave, contrasena, nivelSeguridad));
+            i++;
+        }
+        
         regresar();
     }
 
