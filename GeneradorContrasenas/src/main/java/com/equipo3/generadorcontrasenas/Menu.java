@@ -88,9 +88,13 @@ public class Menu {
         System.out.println("Ingrese la contraseña que desea evaluar");
         String contrasena = tec.next();
 
-        String nivelSeguridad = evaluador.verificarSeguridad(contrasena).toString();
-        System.out.println("Su contraseña tiene un nivel de seguridad "
+        IEvaluadorContrasenas evaluadorSecuencial = new EvaluadorContrasenasSecuencial();
+        
+        String nivelSeguridad = evaluadorSecuencial.verificarSeguridad(contrasena).toString();
+        
+        System.out.println("Su contraseña tiene un nivel de seguridad: "
                 + nivelSeguridad);
+        
         regresar();
     }
     
