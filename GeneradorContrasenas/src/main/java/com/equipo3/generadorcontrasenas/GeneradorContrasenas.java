@@ -17,13 +17,12 @@ import java.util.Random;
  */
 public class GeneradorContrasenas implements IGeneradorContrasenas {
 
-    public Map<String, String> contrasenasGuardadas;
     public List<String> algoritmosDisponibles;
 
     public GeneradorContrasenas() {
-        this.contrasenasGuardadas = new HashMap<>();
+        //this.contrasenasGuardadas = new HashMap<>();
         this.algoritmosDisponibles = new ArrayList<>();
-
+        /*
         this.algoritmosDisponibles.add("SHA-224");
         this.algoritmosDisponibles.add("SHA-256");
         this.algoritmosDisponibles.add("SHA-384");
@@ -34,26 +33,7 @@ public class GeneradorContrasenas implements IGeneradorContrasenas {
         this.algoritmosDisponibles.add("SHA3-256");
         this.algoritmosDisponibles.add("SHA3-384");
         this.algoritmosDisponibles.add("SHA3-512");
-    }
-
-    public List<String> obtenerAlgoritmosDisponibles() {
-        return this.algoritmosDisponibles;
-    }
-
-    public String obtenerNombreAlgoritmo(int posicion) {
-        return this.algoritmosDisponibles.get(posicion);
-    }
-
-    public void guardarContrasena(String nombreContrasena, String contrasena) {
-        this.contrasenasGuardadas.put(nombreContrasena, contrasena);
-    }
-
-    public String obtenerContrasena(String nombre) {
-        return this.contrasenasGuardadas.get(nombre);
-    }
-
-    public Iterator<String> getContrasenasGuardadas() {
-        return this.contrasenasGuardadas.values().iterator();
+        */
     }
 
     @Override
