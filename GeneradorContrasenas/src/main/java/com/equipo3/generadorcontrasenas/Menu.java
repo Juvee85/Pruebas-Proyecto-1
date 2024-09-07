@@ -51,7 +51,7 @@ public class Menu {
             //Ejecuta la opcion solicitada
             switch (opcion) {
                 case 1 ->
-                    generarContraseña();
+                    generarContrasena();
                 case 2 ->
                     evaluarContrasena();
                 case 3 ->
@@ -70,11 +70,27 @@ public class Menu {
     /**
      * Ejecuta la generación de una contraseña segura
      */
-    private void generarContraseña() {
-        System.out.println("Ingrese la longitud que desea para su contraseña /n"
-                + "longitud minima: 8");
-        int longitud = tec.nextInt();
-
+    private void generarContrasena() {
+        
+        System.out.println("Ingrese la longitud que desea para su contrasena (longitud minima: 8): ");
+        
+        boolean entradaValida = false;
+        
+        int longitud = 8;
+        
+        while (!entradaValida) {
+            System.out.print(">>> ");
+            
+            longitud = tec.nextInt();
+            
+            if (longitud < 8) {
+                System.out.println("[!] El tamano de la contrasena debe tener una longitud minima de 8 caracteres...");
+                continue;
+            }
+            
+            entradaValida = true;
+        }
+       
         String contrasena = generador.generarContrasena(longitud);
         System.out.println("Su nueva contraseña segura es: " + contrasena);
         regresar();
