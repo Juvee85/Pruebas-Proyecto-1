@@ -125,7 +125,7 @@ public class Menu {
             System.out.print("Ingresa el nombre con el que deseas guardar la contrasena[minimo de 4 y menor a 20 caracteres]: ");
             nombreContrasena = tec.next();
             
-            if (nombreContrasena.length() < 4 || nombreContrasena.length() > 20) {
+            if (nombreContrasena.length() < 4 || nombreContrasena.length() > 20 || nombreContrasena.isBlank() || nombreContrasena.isEmpty()) {
                 System.out.println("[!] El nombre de la contrasena debe tener al menos 4 y un maximo de 20 caracteres...");
                 continue;
             }
